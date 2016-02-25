@@ -11,6 +11,7 @@
 int userPromptPlayers();
 void createTeams(Creature**, int, Queue*, string );
 char playerMenu();
+void playGame(Queue* team1, Queue* team2, Stack* loserstack);
 
 int main() {
 
@@ -36,18 +37,31 @@ int main() {
 	createTeams(team1, playersPerTeam, ptrTeam1, "Team 1");
 	createTeams(team2, playersPerTeam, ptrTeam2, "Team 2");
 
-	cout << "Team 1: "<< endl;
+	cout << "This is Team 1: "<< endl;
 	ptrTeam1->display();
 
 	cout << endl << endl;
-	cout << "Team 2: " << endl;
+	cout << "This is Team 2: " << endl;
 	ptrTeam2->display();
+
+	bool flag1 = false;
+	bool flag2 = false;
+
+	while ( (flag1 == false) && (flag2 == false) ) {
+
+		playGame(ptrTeam1, ptrTeam2, ptrLosers);
+
+		flag1 = ptrTeam1->isEmpty();
+		flag2 = ptrTeam2->isEmpty();
+	}
 
 
 	delete team1;
 	team1 = NULL;
 	delete team2;
 	team2 = NULL;
+
+
 
 	return 0;
 }
@@ -143,4 +157,64 @@ char playerMenu() {
 	}
 
 	return choice;
+}
+
+
+void playGame(Queue* team1, Queue* team2, Stack* loserstack) {
+
+	Creature * firstplayer = team1->remove();
+	Creature * secondplayer = team2->remove();
+
+	int round = 0;
+
+
+	while ((firstplayer->getStrength() > 0) && (secondplayer->getStrength() > 0)) {
+		round++;
+
+		cout << endl << "Start of round " << round << endl;
+		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << "attacks!" << endl;
+		
+		int attack = firstplayer->attack();
+		cout << "\n Attack: " << attack << endl;
+
+		cout << " Defending " << secondplayer->getName() << " " << secondplayer->getIdentity();
+		cout << " strength: " << secondplayer->getStrength() << endl;
+		cout << " " << secondplayer->getName() << " defends with " << secondplayer->getArmor() << " armor!";
+
+		secondplayer->defense(attack);
+		cout << " Defending " << secondplayer->getName() << " strength after attack: ";
+		cout << secondplayer->getStrength() << endl;
+
+		if (secondplayer->getStrength() > 0) {
+		//if (secondplayer->isDead() == false) {
+			cout << endl << secondplayer->getName() << " attacks!";
+			int attack2 = secondplayer->attack();
+
+			cout << "\n Attack: " << attack2 << endl;
+
+			cout << " Defending " << firstplayer->getName() << " strength: " << firstplayer->getStrength() << endl;
+			cout << " " << firstplayer->getName() << " defends with " << firstplayer->getArmor() << " armor!";
+
+			firstplayer->defense(attack2);
+
+			cout << " Defending " << firstplayer->getName() << " strength after attack: " << firstplayer->getStrength() << endl;
+
+		}
+	}
+
+	if (firstplayer->getStrength() < 0) {
+	//if (firstplayer->isDead() == true) {
+		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the loser" << endl;
+		loserstack->add(firstplayer);
+		team2->add(secondplayer);
+
+	}
+
+	if (secondplayer->getStrength() < 0) {
+	//else if (secondplayer->isDead() == true) {
+		cout << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the loser" << endl;
+		loserstack->add(secondplayer);
+		team2->add(firstplayer);
+	}
+
 }

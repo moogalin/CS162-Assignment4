@@ -100,6 +100,10 @@ string Creature::getName() {
 	return name;
 }
 
+string Creature::getIdentity() {
+	return identity;
+}
+
 int Creature::getArmor() {
 	return armor;
 }

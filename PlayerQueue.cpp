@@ -99,16 +99,16 @@ void Queue::add(Creature* c1) {
 ** Post-Conditons: The queue contains one less node and the function returns the integer value
 **		contained in the deleted node.
 ******************************************************************************************/
-string Queue::remove() {
+Creature* Queue::remove() {
 
 	if (head == NULL) {
 		cout << "Nothing to remove!" << endl;
-		return 0;
+		return NULL;
 	}
 
 	else if (head == tail) {
 		Node *temp = head;
-		string removedCreature = (head->ptrToCreature)->getName() ;
+		Creature* removedCreature = (head->ptrToCreature) ;
 		head = NULL;
 		tail = NULL;
 		delete temp;
@@ -118,7 +118,7 @@ string Queue::remove() {
 
 	else {
 		Node *temp = head;
-		string removedCreature = (head->ptrToCreature)->getName();
+		Creature* removedCreature = (head->ptrToCreature);
 		head = head->prev;
 		head->next = NULL;
 		temp->prev = NULL;
@@ -150,10 +150,24 @@ void Queue::display() {
 
 	while (nodePtr != NULL) {
 		cout << (nodePtr->ptrToCreature)->getName() << " ";
+		cout << (nodePtr->ptrToCreature)->getIdentity() << " " << endl;
 		nodePtr = nodePtr->next;
 	}
 
 	nodePtr = NULL;
 
+
+}
+
+bool Queue ::isEmpty() {
+
+	if ((head == NULL) && (tail == NULL)) {
+		cout << "True returned in Queue" << endl;
+		return true;
+	}
+	else {
+		cout << "False returned in Queue" << endl;
+		return false;
+	}
 
 }

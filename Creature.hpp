@@ -46,6 +46,7 @@ protected:
 
 public:
 	string getName();
+	string getIdentity();
 	virtual int attack() = 0;
 	virtual void defense(int) = 0;
 	bool isDead();

@@ -39,10 +39,11 @@ protected:
 	Node * tail;
 
 public:
+	bool isEmpty();
 	Queue();
 	~Queue();
 	void add(Creature*);
-	string remove();
+	Creature* remove();
 	void display();
 };
 

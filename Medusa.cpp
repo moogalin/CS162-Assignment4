@@ -17,16 +17,21 @@
 #include "Medusa.hpp"
 #include "Creature.hpp"
 
-Medusa::Medusa(string charName) {
+Medusa::Medusa(string charName, string teamName) {
 	armor = 3;
 	strength = 8;
 	lifeValue = 1;
 	name = charName;
 	identity = "The Medusa";
+	team = "teamName";
 	numDiceAttack = 2;
 	numDiceAttackSides = 6;
 	numDiceDefense = 1;
 	numDiceDefenseSides = 6;
+}
+
+Medusa::~Medusa() {
+
 }
 
 /******************************************************************************************
@@ -71,7 +76,7 @@ void Medusa::defense(int attack) {
 
 	if (damage > 0) {
 		strength -= damage;
-		cout << " Medusa loses " << damage << " hitpoints. " << endl;
+		cout << name << " " << identity << " loses " << damage << " hitpoints. " << endl;
 	}
 
 	if (strength <= 0) {

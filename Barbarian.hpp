@@ -28,7 +28,8 @@ private:
 
 public:
 
-	Barbarian(string);
+	~Barbarian();
+	Barbarian(string, string);
 	int attack();
 	void defense(int);
 

@@ -18,17 +18,22 @@
 #include "Creature.hpp"
 #include "BlueMen.hpp"
 
-BlueMen::BlueMen(string charName) {
+BlueMen::BlueMen(string charName, string teamName) {
 	armor = 3;
 	strength = 12;
 	lifeValue = 1;
 	mob = 2;
 	name = charName;
+	team = teamName;
 	identity = "The Blue Men";
 	numDiceAttack = 2;
 	numDiceAttackSides = 10;
 	numDiceDefense = 3;
 	numDiceDefenseSides = 6;
+}
+
+BlueMen::~BlueMen() {
+
 }
 
 
@@ -60,7 +65,7 @@ void BlueMen::defense(int attack) {
 
 	if (damage > 0 ) {
 		strength -= damage;
-		cout << " Blue Men lose " << damage << " hitpoints. " << endl;
+		cout << name << " " << identity << " loses " << damage << " hitpoints. " << endl;
 	}
 	cout << "mob" << mob << endl;
 	if (strength <= 8 && mob == 2) {

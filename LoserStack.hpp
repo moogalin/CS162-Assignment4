@@ -37,7 +37,7 @@ public:
 	Stack();
 	~Stack();
 	void add(Creature*);
-	string remove();
+	void remove();
 	void display();
 
 

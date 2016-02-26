@@ -17,18 +17,22 @@
 #include "Creature.hpp"
 #include "Vampire.hpp"
 
-Vampire::Vampire(string charName) {
+Vampire::Vampire(string charName, string teamName) {
 	armor = 1;
 	strength = 18;
 	lifeValue = 1;
 	name = charName;
 	identity = "The Vampire";
+	team = teamName;
 	numDiceAttack = 1;
 	numDiceAttackSides = 12;
 	numDiceDefense = 1;
 	numDiceDefenseSides = 6;
 }
 
+Vampire::~Vampire() {
+
+}
 
 int Vampire::attack() {
 	int attack = 0;
@@ -65,7 +69,7 @@ void Vampire::defense(int attack) {
 	int damage = (attack - armor) - defense;
 	if (damage > 0 && charm == 1) {
 		strength -= damage;
-		cout << " Vampire loses " << damage << " hitpoints. " << endl;
+		cout << name << " " << identity << " loses " << damage << " hitpoints. " << endl;
 	}
 
 	cout << "\n Defense: " << defense << endl;

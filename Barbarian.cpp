@@ -18,18 +18,22 @@
 #include "Barbarian.hpp"
 
 
-Barbarian::Barbarian(string charName) {
+Barbarian::Barbarian(string charName, string teamName) {
 	armor = 0;
 	strength = 12;
 	lifeValue = 1;
 	name = charName;
 	identity = "The Barbarian";
+	team = teamName;
 	numDiceAttack = 2;
 	numDiceAttackSides = 6;
 	numDiceDefense = 2;
 	numDiceDefenseSides = 6;
 }
 
+Barbarian::~Barbarian() {
+
+}
 
 int Barbarian::attack() {
 	int attack = 0;
@@ -48,16 +52,12 @@ void Barbarian::defense(int attack) {
 	defense = rollDice(numDiceDefense, numDiceDefenseSides);
 
 	cout << "\n Defense: " << defense << endl;
-	/*if (attack == 0) {
-		cout << "Error: Attacking fighter is not alive." << endl;
-		return;
-	}*/
 
 	int damage = (attack - armor) - defense;
 
 	if (damage > 0) {
 		strength -= damage;
-		cout << " Barbarian loses " << damage << " hitpoints. " << endl;
+		cout <<  name << " " << identity << " loses " << damage << " hitpoints. " << endl;
 	}
 
 	if (strength <= 0) {

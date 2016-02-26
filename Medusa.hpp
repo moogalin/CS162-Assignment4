@@ -25,8 +25,8 @@ class Medusa: public Creature{
 private:
 
 public:
-
-	Medusa(string);
+	~Medusa();
+	Medusa(string, string);
 	int attack();
 	void defense(int);
 

@@ -143,7 +143,7 @@ Creature* Queue::remove() {
 void Queue::display() {
 
 	if (head == NULL) {
-		cout << "Nothing to display!" << endl;
+		cout << "No players are left!" << endl;
 	}
 
 	Node * nodePtr = tail;
@@ -162,11 +162,9 @@ void Queue::display() {
 bool Queue ::isEmpty() {
 
 	if ((head == NULL) && (tail == NULL)) {
-		cout << "True returned in Queue" << endl;
 		return true;
 	}
 	else {
-		cout << "False returned in Queue" << endl;
 		return false;
 	}
 

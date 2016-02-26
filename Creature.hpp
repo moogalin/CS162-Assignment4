@@ -37,6 +37,7 @@ protected:
 	int mob;
 	string name;
 	string identity;
+	string team;
 
 	int numDiceAttack;
 	int numDiceAttackSides;
@@ -45,6 +46,7 @@ protected:
 
 
 public:
+	virtual ~Creature();
 	string getName();
 	string getIdentity();
 	virtual int attack() = 0;

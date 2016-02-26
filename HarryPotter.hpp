@@ -25,7 +25,8 @@ class HarryPotter : public Creature {
 private:
 
 public:
-	HarryPotter(string);
+	~HarryPotter();
+	HarryPotter(string, string);
 	int attack();
 	void defense(int);
 

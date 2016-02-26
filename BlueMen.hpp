@@ -25,7 +25,8 @@ private:
 	int mob;
 
 public:
-	BlueMen(string);
+	~BlueMen();
+	BlueMen(string, string);
 	int attack();
 	void defense(int);
 

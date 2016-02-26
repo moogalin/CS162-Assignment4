@@ -17,6 +17,11 @@
 
 #include "Creature.hpp"
 
+
+Creature::~Creature() {
+
+}
+
 /******************************************************************************************
 ** Function: isDead
 ** Description: This function returns a bool value associated with whether or not a given 
@@ -60,7 +65,7 @@ int Creature::rollDice(int amt, int sides) {
 		amt--;
 	}
 
-	cout << " Dice Rolled: " << roll;
+	cout << " Dice Rolled: " << roll << endl;
 	return roll;
 }
 

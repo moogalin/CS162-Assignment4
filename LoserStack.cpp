@@ -37,8 +37,8 @@ Stack::Stack() {
 Stack::~Stack() {
 	if (head != NULL) {
 		if (head->next != NULL) {
-			cout << head->next << endl;
-			cout << (head->ptrToCreature)->getName() << endl;
+			//cout << head->next << endl;
+			//cout << (head->ptrToCreature)->getName() << endl;
 		}
 
 		while (head->next != NULL) {
@@ -89,29 +89,32 @@ void Stack::add(Creature* c1) {
 ** Post-Conditons: The stack contains one less node and the function returns the integer value
 **		contained in the deleted node. 
 ******************************************************************************************/
-string Stack::remove() {
+void Stack::remove() {
 
 	if (head == NULL) {
 		cout << "Nothing to remove" << endl;
-		return 0;
+	
 	}
 
 	else if (head->next == NULL) {
 		string removedCreature = (head->ptrToCreature)->getName();
+		string removedCreatureidentity = (head->ptrToCreature)->getIdentity();
 		delete head;
 		head = NULL;
-		return removedCreature;
+
 	}
 
 	else {
 		Node *remove = head;
 		string removedCreature = (head->ptrToCreature)->getName();
+		cout << removedCreature	<< " ";
+		string removedCreatureIdentity = (head->ptrToCreature)->getIdentity();
+		cout << removedCreatureIdentity << " " << endl;
 		head = head->next;
 		remove->next = NULL;
 		delete remove;
 		remove = NULL;
 
-		return removedCreature;
 	}
 }
 
@@ -134,6 +137,7 @@ void Stack::display() {
 
 	while (nodePtr != NULL) {
 		cout << (nodePtr->ptrToCreature)->getName() << " ";
+		cout << (nodePtr->ptrToCreature)->getIdentity() << " " << endl;
 		nodePtr = nodePtr->next;
 	}
 

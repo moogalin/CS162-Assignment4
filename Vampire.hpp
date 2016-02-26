@@ -25,7 +25,8 @@ class Vampire : public Creature {
 private:
 
 public:
-	Vampire(string);
+	~Vampire();
+	Vampire(string, string);
 	int attack();
 	void defense(int);
 

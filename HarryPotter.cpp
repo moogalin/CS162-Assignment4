@@ -18,16 +18,21 @@
 #include "Creature.hpp"
 #include "HarryPotter.hpp"
 
-HarryPotter::HarryPotter(string charName) {
+HarryPotter::HarryPotter(string charName, string teamName) {
 	armor = 0;
 	strength = 10;
 	lifeValue = 2;
 	name = charName;
 	identity = "The Harry Potter";
+	team = teamName;
 	numDiceAttack = 2;
 	numDiceAttackSides = 6;
 	numDiceDefense = 2;
 	numDiceDefenseSides = 6;
+}
+
+HarryPotter::~HarryPotter() {
+
 }
 
 
@@ -60,7 +65,7 @@ void HarryPotter::defense(int attack) {
 
 	if (damage > 0) {
 		strength -= damage;
-		cout << " Harry Potter loses " << damage << " hitpoints. " << endl;
+		cout << name << " " << identity << " loses " << damage << " hitpoints. " << endl;
 	}
 
 

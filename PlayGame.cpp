@@ -1,47 +1,41 @@
 #include "PlayGame.hpp"
 
 PlayGame::PlayGame() {
-	ptrTeam1 = &playerQteam1;
-	ptrTeam2 = &playerQteam2;
-	ptrLosers = &losers;
+	team1 = &playerQteam1;
+	team2 = &playerQteam2;
+	loserstack = &losers;
 	playerPtr = NULL;
-
 }
 
 PlayGame::~PlayGame() {
-	delete playerPtr;
 	playerPtr = NULL;
-
-}
-
-PlayGame::PlayGame(const PlayGame &obj) {
-	*playerPtr = *obj.playerPtr;
-
 }
 
 Queue* PlayGame::getTeam1() {
-	return ptrTeam1;
+	return team1;
 }
 
 Queue* PlayGame::getTeam2() {
-	return ptrTeam2;
+	return team2;
 }
 
 Stack* PlayGame::getLosers() {
 
-	return ptrLosers;
+	return loserstack;
 }
 
 void PlayGame::userPromptPlayers() {
 
 	int players;
 	cout << "How many players would you like to begin with on each team?" << endl;
+	cout << "Players Per Team: ";
 	cin >> players;
 	cin.ignore();
 
 
-	while (players< 1 ) {
+	while (players < 1 ) {
 		cout << "Each team should have at least one player." << endl;
+		cout << "Players Per Team: ";
 		cin >> players;
 		cin.ignore();
 	}
@@ -57,10 +51,12 @@ void PlayGame::createTeams(Queue* ptrToTeam, string s1) {
 	cout << "Let's choose the players for " << s1 << endl;
 
 	for (int i = 0; i < playersPerTeam; i++) {
+
 		Creature * playerPtr = NULL;
-		Creature * temp = NULL; //new
+
 		cout << "What would you like to name Player " << i + 1 << "?" << endl;
 		getline(cin, playerName);
+
 		identity = playerMenu();
 
 		if (identity == '1') {
@@ -91,45 +87,7 @@ void PlayGame::createTeams(Queue* ptrToTeam, string s1) {
 		else {
 
 		}
-
-		/*switch (identity) {
-
-		case '1':	playerPtr = new Barbarian(playerName, s1);
-			ptrToTeam->add(playerPtr);
-			playerPtr = new Medusa(playerName, s1);
-			ptrToTeam->add(playerPtr);
-			break;
-
-		case '2':
-			playerPtr = new Barbarian(playerName, s1);
-			ptrToTeam->add(playerPtr);
-			break;
-
-		case '3':
-			playerPtr = new Vampire(playerName, s1);
-			ptrToTeam->add(playerPtr);
-			break;
-
-		case '4':
-			playerPtr = new BlueMen(playerName, s1);
-			ptrToTeam->add(playerPtr);
-			break;
-
-		case '5':
-			playerPtr = new HarryPotter(playerName, s1);
-			ptrToTeam->add(playerPtr);
-			break;
-			
-		default:
-			cout << "Error" << endl;
-		}*/
-	
 	}
-
-
-
-
-
 }
 	
 char PlayGame::playerMenu() {
@@ -159,11 +117,12 @@ char PlayGame::playerMenu() {
 	return choice;
 }
 
-void PlayGame::playGame(Queue* team1, Queue* team2, Stack* loserstack) {
+void PlayGame::playGameOutput() {
 	int dieRoll = (rand() % 2) + 1;
 	Creature * firstplayer;
 	Creature * secondplayer;
 
+	// Allow teams to alternate between who begins the attack and who begins the defense. 
 	if (dieRoll == 1) {
 		firstplayer = team1->remove();
 		secondplayer = team2->remove();
@@ -174,71 +133,87 @@ void PlayGame::playGame(Queue* team1, Queue* team2, Stack* loserstack) {
 		secondplayer = team1->remove();
 	}
 
-	int round = 0;
+	int rounds = 0;
 
 
 	while ((firstplayer->getStrength() > 0) && (secondplayer->getStrength() > 0)) {
-		round++;
+		rounds++;
 
-		cout << endl << "Start of round " << round << endl;
-		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << "attacks!" << endl;
-		
+		cout << endl << "Start of round " << rounds << endl;
+
 		int attack = firstplayer->attack();
-		//cout << "\n Attack: " << attack << endl;
+		cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity() << " rolls attack value of ";
+		cout << firstplayer->getattackVal() << endl;
 
-		//cout << " Defending " << secondplayer->getName() << " " << secondplayer->getIdentity();
-		//cout << " strength: " << secondplayer->getStrength() << endl;
-		cout << " " << secondplayer->getName() << " defends with " << secondplayer->getArmor() << " armor!";
-
+		
 		secondplayer->defense(attack);
-		cout << " Defending " << secondplayer->getName() << " strength after attack: ";
-		cout << secondplayer->getStrength() << endl;
+		cout << " " << secondplayer->getName();
+		cout << " " << secondplayer->getIdentity() << " rolls defense value of ";
+		cout << secondplayer->getDefenseVal() << " and defends with " << secondplayer->getArmor() << " armor.";
+
+		
+		cout << " Defending " << secondplayer->getName() << " " << secondplayer->getIdentity();
+		cout << " strength after attack: " << secondplayer->getStrength() << endl;
 
 		if (secondplayer->getStrength() > 0) {
-			cout << endl << secondplayer->getName() << " attacks!";
 			int attack2 = secondplayer->attack();
-
-			//cout << "\n Attack: " << attack2 << endl;
-
-			//cout << " Defending " << firstplayer->getName() << " strength: " << firstplayer->getStrength() << endl;
-			cout << " " << firstplayer->getName() << " defends with " << firstplayer->getArmor() << " armor!";
+			cout << " " << secondplayer->getName();
+			cout << " " << secondplayer->getIdentity() << " rolls attack value of ";
+			cout << secondplayer->getattackVal() << endl;
 
 			firstplayer->defense(attack2);
+			cout << " " << firstplayer->getName() << " rolls defense value of ";
+			cout << firstplayer->getDefenseVal() << " and defends with " << firstplayer->getArmor() << " armor!";
 
-			cout << " Defending " << firstplayer->getName() << " strength after attack: " << firstplayer->getStrength() << endl;
+			cout << " Defending " << firstplayer->getName() << " " << firstplayer->getIdentity();
+			cout << " strength after attack: " << firstplayer->getStrength() << endl;
 
 		}
 	}
-
 	if (firstplayer->getStrength() <= 0) {
-		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the loser" << endl;
-		cout << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the winner" << endl;
+		cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the loser and ";
+		cout << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the winner in ";
+		cout << rounds << " rounds." << endl;
+
 		if (dieRoll == 1) {
 			loserstack->add(firstplayer);
-			secondplayer->restoreDamage();
+			cout << " " << secondplayer->getName() << " " << secondplayer->getIdentity();
+			cout << " restores " << secondplayer->restoreDamage();
+			cout << " damage before returning to the lineup!" << endl;
 			team2->add(secondplayer);
 		}
 
 		else {
 			loserstack->add(firstplayer);
-			secondplayer->restoreDamage();
+			cout << " " << secondplayer->getName() << " " << secondplayer->getIdentity();
+			cout << " restores " << secondplayer->restoreDamage();
+			cout << " damage before returning to the lineup!" << endl;
 			team1->add(secondplayer);
 		}
 
 	}
 
 	if (secondplayer->getStrength() <= 0) {
-		cout << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the loser" << endl;
-		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the winner" << endl;
+		cout << " " << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the loser and ";
+		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the winner in ";
+		cout << rounds << " rounds." << endl;
+
 		if (dieRoll == 1) {
+
+			cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity();
+			cout << " restores " << firstplayer->restoreDamage();
+			cout << " damage before returning to the lineup!" << endl;
+
 			loserstack->add(secondplayer);
-			firstplayer->restoreDamage();
 			team1->add(firstplayer);
 		}
 
 		else {
+			cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity();
+			cout << " restores " << firstplayer->restoreDamage();
+			cout << " damage before returning to the lineup!" << endl;
+
 			loserstack->add(secondplayer);
-			firstplayer->restoreDamage();
 			team2->add(firstplayer);
 		}
 
@@ -246,7 +221,98 @@ void PlayGame::playGame(Queue* team1, Queue* team2, Stack* loserstack) {
 
 }
 
-void PlayGame::finalResults(Queue* team1, Queue* team2, Stack* loserstack) {
+void PlayGame::playGame() {
+	int dieRoll = (rand() % 2) + 1;
+	Creature * firstplayer;
+	Creature * secondplayer;
+
+
+	// Allow teams to alternate between who begins the attack and who begins the defense. 
+	if (dieRoll == 1) {
+		firstplayer = team1->remove();
+		secondplayer = team2->remove();
+
+	}
+
+	else {
+		firstplayer = team2->remove();
+		secondplayer = team1->remove();
+	}
+
+	cout << firstplayer->getName() << " " << firstplayer->getIdentity() << " vs. ";
+	cout << secondplayer->getName() << " " << secondplayer->getIdentity() << endl;
+
+	int rounds = 0;
+
+
+	while ((firstplayer->getStrength() > 0) && (secondplayer->getStrength() > 0)) {
+		rounds++;
+
+		int attack = firstplayer->attack();
+
+		secondplayer->defense(attack);
+
+		if (secondplayer->getStrength() > 0) {
+
+			int attack2 = secondplayer->attack();
+
+			firstplayer->defense(attack2);
+
+		}
+	}
+
+	if (firstplayer->getStrength() <= 0) {
+		cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the loser and ";
+		cout << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the winner in ";
+		cout << rounds << " rounds." << endl;
+
+		if (dieRoll == 1) {
+			loserstack->add(firstplayer);
+			cout << " " << secondplayer->getName() << " " << secondplayer->getIdentity();
+			cout << " restores " << secondplayer->restoreDamage();
+			cout << " damage before returning to the lineup!" << endl;
+			team2->add(secondplayer);
+		}
+
+		else {
+			loserstack->add(firstplayer);
+			cout << " " << secondplayer->getName() << " " << secondplayer->getIdentity();
+			cout << " restores " << secondplayer->restoreDamage();
+			cout << " damage before returning to the lineup!" << endl;
+			team1->add(secondplayer);
+		}
+
+	}
+
+	if (secondplayer->getStrength() <= 0) {
+		cout << " " << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the loser and ";
+		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the winner in ";
+		cout << rounds << " rounds." << endl;
+
+		if (dieRoll == 1) {
+
+			cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity();
+			cout << " restores " << firstplayer->restoreDamage();
+			cout << " damage before returning to the lineup!" << endl;
+
+			loserstack->add(secondplayer);
+			team1->add(firstplayer);
+		}
+
+		else {
+			cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity();
+			cout << " restores " << firstplayer->restoreDamage();
+			cout << " damage before returning to the lineup!" << endl;
+
+			loserstack->add(secondplayer);
+			team2->add(firstplayer);
+		}
+
+	}
+
+}
+
+void PlayGame::finalResults() {
 
 	cout << endl;
 	cout << "Players left in Team 1:  " << endl;
@@ -285,8 +351,9 @@ void PlayGame::finalResults(Queue* team1, Queue* team2, Stack* loserstack) {
 
 	cout << "Third place goes to the next survivor: " << endl;
 	loserstack->remove();
-	loserstack->remove();
-	loserstack->remove();
 	cout << endl;
+
+
+
 
 }

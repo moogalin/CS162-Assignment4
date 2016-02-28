@@ -36,23 +36,22 @@ Stack::Stack() {
 ******************************************************************************************/
 Stack::~Stack() {
 	if (head != NULL) {
-		if (head->next != NULL) {
-			//cout << head->next << endl;
-			//cout << (head->ptrToCreature)->getName() << endl;
-		}
+		
 
 		while (head->next != NULL) {
 			Node *newPtr = head;
+			delete (head->ptrToCreature);
 			head = head->next;
 			newPtr->next = NULL;
-			delete (newPtr);
+			delete newPtr;
 			newPtr = NULL;
-
 		}
-		delete head;
-		head = NULL;
-	}
+			delete (head->ptrToCreature);
+			delete head;
+			head = NULL;
+		
 
+	}
 }
 
 
@@ -99,20 +98,22 @@ void Stack::remove() {
 	else if (head->next == NULL) {
 		string removedCreature = (head->ptrToCreature)->getName();
 		string removedCreatureidentity = (head->ptrToCreature)->getIdentity();
+		delete (head->ptrToCreature);
 		delete head;
 		head = NULL;
 
 	}
 
 	else {
-		Node *remove = head;
+		Node *remove = head;						
 		string removedCreature = (head->ptrToCreature)->getName();
 		cout << removedCreature	<< " ";
 		string removedCreatureIdentity = (head->ptrToCreature)->getIdentity();
 		cout << removedCreatureIdentity << " " << endl;
+		delete (head->ptrToCreature);
 		head = head->next;
 		remove->next = NULL;
-		delete remove;
+		delete remove;															
 		remove = NULL;
 
 	}

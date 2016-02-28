@@ -20,6 +20,9 @@
 Vampire::Vampire(string charName, string teamName) {
 	armor = 1;
 	strength = 18;
+	damageTaken = 0;
+	attackVal = 0;
+	defenseVal = 0;
 	lifeValue = 1;
 	name = charName;
 	identity = "The Vampire";
@@ -35,12 +38,10 @@ Vampire::~Vampire() {
 }
 
 int Vampire::attack() {
-	int attack = 0;
-	int glare = 10000;
 
-	attack = rollDice(numDiceAttack, numDiceAttackSides);
+	attackVal = rollDice(numDiceAttack, numDiceAttackSides);
 
-	return attack;
+	return attackVal;
 	
 
 }
@@ -56,30 +57,24 @@ int Vampire::attack() {
 ******************************************************************************************/
 void Vampire::defense(int attack) {
 
-	int defense = 0;
 	int charm = rollDice(1, 2); // Generate random number 1 or 2. 
-
+	defenseVal = 1000;
 	if (charm == 2) {
-		cout << endl << "This vampire has charmed his opponent into not attacking him this round." << endl;
+		cout << " " << name << " " << identity;
+		cout << " has charmed his opponent into not attacking him this round." << endl;
 		return;
 	}
 
-	defense = rollDice(numDiceDefense, numDiceDefenseSides);
+	defenseVal = rollDice(numDiceDefense, numDiceDefenseSides);
 
-	int damage = (attack - armor) - defense;
-	if (damage > 0 && charm == 1) {
-		strength -= damage;
-		cout << name << " " << identity << " loses " << damage << " hitpoints. " << endl;
+	int damageTaken = (attack - armor) - defenseVal;
+	if (damageTaken > 0 && charm == 1) {
+		strength -= damageTaken;
 	}
 
-	cout << "\n Defense: " << defense << endl;
-	if (attack == 0) {
-		cout << "Error: Attacking fighter is not alive." << endl;
-		return;
-	}
 	
 	if (strength <= 0) {
-		cout << "The Defending Vampire has died." << endl;
+		cout << " " << name << " " << identity << " has died." << endl;
 		lifeValue = 0;
 	}
 

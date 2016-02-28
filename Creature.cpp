@@ -65,7 +65,6 @@ int Creature::rollDice(int amt, int sides) {
 		amt--;
 	}
 
-	cout << " Dice Rolled: " << roll << endl;
 	return roll;
 }
 
@@ -109,12 +108,23 @@ string Creature::getIdentity() {
 	return identity;
 }
 
+int Creature::getDamageTaken() {
+	return damageTaken;
+}
+
+int Creature::getattackVal() {
+	return attackVal;
+}
+
+int Creature::getDefenseVal() {
+	return defenseVal;
+}
+
 int Creature::getArmor() {
 	return armor;
 }
 
-
-void Creature::restoreDamage() {
+int Creature::restoreDamage() {
 	int roll = rollDice(1, 6);
 
 	if (roll == 1) {
@@ -141,5 +151,7 @@ void Creature::restoreDamage() {
 		strength = strength + 6;
 	}
 
-
+	return roll;
 }
+
+

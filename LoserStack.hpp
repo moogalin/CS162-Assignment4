@@ -26,7 +26,7 @@ protected:
 	struct Node {
 		Creature* ptrToCreature;
 		Node * next;
-		Node(Creature* c1, Node* next1 = NULL ) { 
+		Node(Creature*c1, Node* next1 = NULL ) { 
 			ptrToCreature = c1;
 			next = next1;
 		}

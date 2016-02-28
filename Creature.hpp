@@ -33,6 +33,9 @@ class Creature {
 protected:
 	int armor;
 	int strength;
+	int damageTaken;
+	int attackVal;
+	int defenseVal;
 	int lifeValue;
 	int mob;
 	string name;
@@ -49,13 +52,16 @@ public:
 	virtual ~Creature();
 	string getName();
 	string getIdentity();
+	int getattackVal();
+	int getDefenseVal();
 	virtual int attack() = 0;
 	virtual void defense(int) = 0;
 	bool isDead();
 	int rollDice(int amt, int sides);
 	int getStrength();
 	int getArmor();
-	void restoreDamage();
+	int restoreDamage();
+	int getDamageTaken();
 
 
 public:

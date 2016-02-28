@@ -18,23 +18,23 @@ private:
 	Stack losers;
 	Queue playerQteam1;
 	Queue playerQteam2;
-	Queue * ptrTeam1;
-	Queue * ptrTeam2;
-	Stack * ptrLosers;
+	Queue * team1;
+	Queue * team2;
+	Stack * loserstack;
 
 
 public:
-	PlayGame(const PlayGame &obj);
 	PlayGame();
 	~PlayGame();
-	Queue * getTeam1();
-	Queue * getTeam2();
-	Stack * getLosers();
+	Queue * getTeam1(); 
+	Queue * getTeam2(); 
+	Stack * getLosers(); 
 	void userPromptPlayers();
-	void createTeams(Queue*, string);
+	void createTeams(Queue* teamID, string teamName);
 	char playerMenu();
-	void playGame(Queue* team1, Queue* team2, Stack* loserstack);
-	void finalResults(Queue* team1, Queue* team2, Stack* loserstack);
+	void playGame();
+	void playGameOutput();
+	void finalResults();
 
 
 };

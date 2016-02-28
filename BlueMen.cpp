@@ -21,6 +21,9 @@
 BlueMen::BlueMen(string charName, string teamName) {
 	armor = 3;
 	strength = 12;
+	damageTaken = 0;
+	attackVal = 0;
+	defenseVal = 0;
 	lifeValue = 1;
 	mob = 2;
 	name = charName;
@@ -38,11 +41,9 @@ BlueMen::~BlueMen() {
 
 
 int BlueMen::attack() {
-	int attack = 0;
+	attackVal = rollDice(numDiceAttack, numDiceAttackSides);
 
-	attack = rollDice(numDiceAttack, numDiceAttackSides);
-
-	return attack;
+	return attackVal;
 
 
 }
@@ -57,40 +58,28 @@ int BlueMen::attack() {
 ******************************************************************************************/
 void BlueMen::defense(int attack) {
 
-	int defense = 0;
+	defenseVal = rollDice(numDiceDefense, numDiceDefenseSides);
 
-	defense = rollDice(numDiceDefense, numDiceDefenseSides);
+	damageTaken = (attack - armor) - defenseVal;
 
-	int damage = (attack - armor) - defense;
-
-	if (damage > 0 ) {
-		strength -= damage;
-		cout << name << " " << identity << " loses " << damage << " hitpoints. " << endl;
+	if (damageTaken > 0 ) {
+		strength -= damageTaken;
 	}
-	cout << "mob" << mob << endl;
 	if (strength <= 8 && mob == 2) {
 		numDiceDefense--;
-		cout << endl << "Oh no! A member of the BlueMen mob dies. Their defense is now reduced." << endl;
+		cout << " Oh no! A member of the BlueMen mob dies. Their defense is now reduced." << endl;
 		--mob;
 
 		
 	}
 	if (strength <= 4 && mob == 1) {
 		numDiceDefense--;
-		cout << "Oh no! Another member of the BlueMen mob dies. Their defense is now reduced." << endl;
+		cout << " Oh no! Another member of the BlueMen mob dies. Their defense is now reduced." << endl;
 		--mob;
 	}
 
-
-
-	cout << "\n Defense: " << defense << endl;
-	if (attack == 0) {
-		cout << "Error: Attacking fighter is not alive." << endl;
-		return;
-	}
-
 	if (strength <= 0) {
-		cout << "The Defending BlueMen have all died." << endl;
+		cout << " " << name << " " << identity << " has died." << endl;
 		lifeValue = 0;
 	}
 

@@ -45,14 +45,17 @@ Queue::~Queue() {
 	while (head != NULL) {
 		if (head == tail) {
 			Node *temp = head;
+			delete head->ptrToCreature;
 			head = NULL;
 			tail = NULL;
 			delete temp;
+			temp = NULL;
 
 		}
 
 		else {
 			Node *temp = head;
+			delete (head->ptrToCreature);
 			head = head->prev;
 			head->next = NULL;
 			temp->prev = NULL;
@@ -121,7 +124,7 @@ Creature* Queue::remove() {
 		Creature* removedCreature = (head->ptrToCreature);
 		head = head->prev;
 		head->next = NULL;
-		temp->prev = NULL;
+		temp->prev = NULL;							
 		delete temp;
 		temp = NULL;
 		return removedCreature;

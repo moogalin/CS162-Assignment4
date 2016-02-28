@@ -20,6 +20,9 @@
 Medusa::Medusa(string charName, string teamName) {
 	armor = 3;
 	strength = 8;
+	damageTaken = 0;
+	attackVal = 0;
+	defenseVal = 0;
 	lifeValue = 1;
 	name = charName;
 	identity = "The Medusa";
@@ -43,18 +46,19 @@ Medusa::~Medusa() {
 ** Post-Conditons: Glare occurs if the rollDice function returns a value of 12. 
 ******************************************************************************************/
 int Medusa::attack() {
-	int attack = 0;
+	attackVal = 0;
 	int glare = 10000;
 
-	attack = rollDice(numDiceAttack, numDiceAttackSides);
+	attackVal = rollDice(numDiceAttack, numDiceAttackSides);
 
-	if (attack == 12) {
-		cout << endl << "Oh no! The target has looked into her eyes and is turned to stone." << endl;
+	if (attackVal == 12) {
+		cout << " Oh no! The target has looked into ";
+		cout << name << " " << identity << "'s eyes and is turned to stone." << endl;
 		return glare;
 	}
 
 	else {
-		return attack;
+		return attackVal;
 	}
 
 }
@@ -62,26 +66,18 @@ int Medusa::attack() {
 
 void Medusa::defense(int attack) {
 
-	int defense = 0;
+	defenseVal = rollDice(numDiceDefense, numDiceDefenseSides);
 
-	defense = rollDice(numDiceDefense, numDiceDefenseSides);
+	int damageTaken = (attack - armor) - defenseVal;
 
-	cout << "\n Defense: " << defense << endl;
-	if (attack == 0) {
-		cout << "Error: Attacking fighter is not alive." << endl;
-		return;
-	}
-
-	int damage = (attack - armor) - defense;
-
-	if (damage > 0) {
-		strength -= damage;
-		cout << name << " " << identity << " loses " << damage << " hitpoints. " << endl;
+	if (damageTaken > 0) {
+		strength -= damageTaken;
 	}
 
 	if (strength <= 0) {
-		cout << "The Defending Medusa has died." << endl;
+		cout << " " << name << " " << identity << " has died." << endl;
 		lifeValue = 0;
 	}
 
 }
+

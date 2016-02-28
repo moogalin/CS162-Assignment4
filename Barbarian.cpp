@@ -21,6 +21,9 @@
 Barbarian::Barbarian(string charName, string teamName) {
 	armor = 0;
 	strength = 12;
+	damageTaken = 0;
+	attackVal = 0;
+	defenseVal = 0;
 	lifeValue = 1;
 	name = charName;
 	identity = "The Barbarian";
@@ -36,32 +39,26 @@ Barbarian::~Barbarian() {
 }
 
 int Barbarian::attack() {
-	int attack = 0;
 
-		attack = rollDice(numDiceAttack, numDiceAttackSides);
+	attackVal = rollDice(numDiceAttack, numDiceAttackSides);
 
-		return attack;
+		return attackVal;
 
 }
 
 
 void Barbarian::defense(int attack) {
 
-	int defense = 0;
+	defenseVal = rollDice(numDiceDefense, numDiceDefenseSides);
 
-	defense = rollDice(numDiceDefense, numDiceDefenseSides);
+	damageTaken = (attack - armor) - defenseVal;
 
-	cout << "\n Defense: " << defense << endl;
-
-	int damage = (attack - armor) - defense;
-
-	if (damage > 0) {
-		strength -= damage;
-		cout <<  name << " " << identity << " loses " << damage << " hitpoints. " << endl;
+	if (damageTaken > 0) {
+		strength -= damageTaken;
 	}
 
 	if (strength <= 0) {
-		cout << "The Defending Barbarian has died." << endl;
+		cout << " " << name << " " << identity << " has died." << endl;
 		lifeValue = 0;
 	}
 

@@ -22,6 +22,9 @@ HarryPotter::HarryPotter(string charName, string teamName) {
 	armor = 0;
 	strength = 10;
 	lifeValue = 2;
+	damageTaken = 0;
+	attackVal = 0;
+	defenseVal = 0;
 	name = charName;
 	identity = "The Harry Potter";
 	team = teamName;
@@ -37,11 +40,10 @@ HarryPotter::~HarryPotter() {
 
 
 int HarryPotter::attack() {
-	int attack = 0;
 
-	attack = rollDice(numDiceAttack, numDiceAttackSides);
+	attackVal = rollDice(numDiceAttack, numDiceAttackSides);
 
-	return attack;
+	return attackVal;
 
 
 }
@@ -57,29 +59,25 @@ int HarryPotter::attack() {
 ******************************************************************************************/
 void HarryPotter::defense(int attack) {
 
-	int defense = 0;
+	defenseVal = rollDice(numDiceDefense, numDiceDefenseSides);
 
-	defense = rollDice(numDiceDefense, numDiceDefenseSides);
+	int damageTaken = (attack - armor) - defenseVal;
 
-	int damage = (attack - armor) - defense;
+	if (damageTaken > 0) {
+		strength -= damageTaken;
 
-	if (damage > 0) {
-		strength -= damage;
-		cout << name << " " << identity << " loses " << damage << " hitpoints. " << endl;
 	}
-
-
-	cout << "\n Defense: " << defense << endl;
 
 	if (strength <= 0 && lifeValue == 2) {
 		strength = 20;
 		lifeValue = 1;
-		cout << "Harry Potter dies but magically recovers!" << endl;
+		cout << " " << name << " " << identity << " dies but magically recovers!" << endl;
 	}
 
 	else if (strength <= 0) {
-		cout << "Harry Potter is unable to recover, and he dies." << endl;
+		cout << " " << name << " " << identity << " is unable to recover, and he dies." << endl;
 		lifeValue = 0;
 	}
 
 }
+

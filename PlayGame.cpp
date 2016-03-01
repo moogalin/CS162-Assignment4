@@ -1,5 +1,28 @@
-#include "PlayGame.hpp"
+/******************************************************************************************
+** Program Filename: Assignment 4
+** Author: Megan Aldridge
+** Date: February 28, 2016
+** Description: This program allows a user to create two teams of Creatures that will
+**		battle in pairs until death!
+** Input: User will select the number of players in each team and then the user will select
+**		from a menu to determine which Creatures will fight and name each creature.
+** Output: The output displays each round of the fight including each creatures armor,
+**		die roll, strength (before and after defending), and the result of the battle.
+**		At the end of all paired battles, the output will display the players remaining
+**		in the winning team and the losers (incapacitated players) as well as the 1st,
+**		2nd, and 3rd place victors.
+**		Menu functions also display choices to allow the user to determine if they want
+**		to continue the battle, start a new one, or quit.
+******************************************************************************************/
 
+#include "PlayGame.hpp"
+/******************************************************************************************
+** Function: Constructor
+** Description: This function sets initial values for PlayGame member variables. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: N/A
+******************************************************************************************/
 PlayGame::PlayGame() {
 	team1 = &playerQteam1;
 	team2 = &playerQteam2;
@@ -7,10 +30,27 @@ PlayGame::PlayGame() {
 	playerPtr = NULL;
 }
 
+
+/******************************************************************************************
+** Function: Deconstructor
+** Description: This function sets pointers to null when a PlayGame object is deleted. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: N/A
+******************************************************************************************/
 PlayGame::~PlayGame() {
 	playerPtr = NULL;
 }
 
+
+
+/******************************************************************************************
+** Function: getters
+** Description: These functions return private member variables. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: N/A
+******************************************************************************************/
 Queue* PlayGame::getTeam1() {
 	return team1;
 }
@@ -24,6 +64,15 @@ Stack* PlayGame::getLosers() {
 	return loserstack;
 }
 
+
+
+/******************************************************************************************
+** Function: userPromptPlayers
+** Description: Allows user to input the number of players for each team. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: Number of players integer is set
+******************************************************************************************/
 void PlayGame::userPromptPlayers() {
 
 	int players;
@@ -44,6 +93,16 @@ void PlayGame::userPromptPlayers() {
 
 }
 
+
+
+/******************************************************************************************
+** Function: createTeams
+** Description: This function creates dynamically allocated Creature pointers and passes
+**	them (and their name defined by the user) into their corresponding Queue.
+** Parameters: Pointer to the team Queue and a string corresponding to the team name.
+** Pre-Conditions: N/A
+** Post-Conditons: Teams are created in their respective Queues
+******************************************************************************************/
 void PlayGame::createTeams(Queue* ptrToTeam, string s1) {
 
 	string playerName;
@@ -89,7 +148,17 @@ void PlayGame::createTeams(Queue* ptrToTeam, string s1) {
 		}
 	}
 }
-	
+
+
+
+/******************************************************************************************
+** Function: playerMenu
+** Description: This function displays a list of the different Creature that may play the
+**		game. The user must select from the list of options. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: N/A
+******************************************************************************************/
 char PlayGame::playerMenu() {
 
 	char choice;
@@ -117,12 +186,23 @@ char PlayGame::playerMenu() {
 	return choice;
 }
 
+
+/******************************************************************************************
+** Function: playGameOutput
+** Description: This function allows the user to complete one battle from start to finish. 
+**		This version of PlayGame includes additional output (including dice rolls) and 
+**		displays the results of a single battle. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: Losing player is moved to the loser stack and winning player regains 
+**		some strength and moves to the back of their team queue. 
+******************************************************************************************/
 void PlayGame::playGameOutput() {
 	int dieRoll = (rand() % 2) + 1;
 	Creature * firstplayer;
 	Creature * secondplayer;
 
-	// Allow teams to alternate between who begins the attack and who begins the defense. 
+	/* Allow teams to alternate between who begins the attack and who begins the defense. */
 	if (dieRoll == 1) {
 		firstplayer = team1->remove();
 		secondplayer = team2->remove();
@@ -135,7 +215,7 @@ void PlayGame::playGameOutput() {
 
 	int rounds = 0;
 
-
+	/* Both players must be alive to battle */
 	while ((firstplayer->getStrength() > 0) && (secondplayer->getStrength() > 0)) {
 		rounds++;
 
@@ -155,6 +235,7 @@ void PlayGame::playGameOutput() {
 		cout << " Defending " << secondplayer->getName() << " " << secondplayer->getIdentity();
 		cout << " strength after attack: " << secondplayer->getStrength() << endl;
 
+		/* Battle is discontinued if second player died */
 		if (secondplayer->getStrength() > 0) {
 			int attack2 = secondplayer->attack();
 			cout << " " << secondplayer->getName();
@@ -170,6 +251,8 @@ void PlayGame::playGameOutput() {
 
 		}
 	}
+	 
+	/* Second player wins*/
 	if (firstplayer->getStrength() <= 0) {
 		cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the loser and ";
 		cout << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the winner in ";
@@ -193,6 +276,7 @@ void PlayGame::playGameOutput() {
 
 	}
 
+	/* First Player Wins*/
 	if (secondplayer->getStrength() <= 0) {
 		cout << " " << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the loser and ";
 		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the winner in ";
@@ -221,13 +305,25 @@ void PlayGame::playGameOutput() {
 
 }
 
+
+
+/******************************************************************************************
+** Function: playGame
+** Description: This function allows the user to complete one battle from start to finish.
+**		This version of PlayGame has restricted output and primarily displays the winner
+**		of the battle and if special abilities were used. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: Losing player is moved to the loser stack and winning player regains
+**		some strength and moves to the back of their team queue.
+******************************************************************************************/
 void PlayGame::playGame() {
 	int dieRoll = (rand() % 2) + 1;
 	Creature * firstplayer;
 	Creature * secondplayer;
 
 
-	// Allow teams to alternate between who begins the attack and who begins the defense. 
+	/* Allow teams to alternate between who begins the attack and who begins the defense. */
 	if (dieRoll == 1) {
 		firstplayer = team1->remove();
 		secondplayer = team2->remove();
@@ -244,7 +340,7 @@ void PlayGame::playGame() {
 
 	int rounds = 0;
 
-
+	/* Both players must be alive to battle */
 	while ((firstplayer->getStrength() > 0) && (secondplayer->getStrength() > 0)) {
 		rounds++;
 
@@ -252,6 +348,7 @@ void PlayGame::playGame() {
 
 		secondplayer->defense(attack);
 
+	/* Battle is discontinued if second player died */
 		if (secondplayer->getStrength() > 0) {
 
 			int attack2 = secondplayer->attack();
@@ -261,6 +358,7 @@ void PlayGame::playGame() {
 		}
 	}
 
+	/* Second player wins*/
 	if (firstplayer->getStrength() <= 0) {
 		cout << " " << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the loser and ";
 		cout << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the winner in ";
@@ -284,6 +382,7 @@ void PlayGame::playGame() {
 
 	}
 
+	/* First player wins*/
 	if (secondplayer->getStrength() <= 0) {
 		cout << " " << secondplayer->getName() << " " << secondplayer->getIdentity() << " is the loser and ";
 		cout << firstplayer->getName() << " " << firstplayer->getIdentity() << " is the winner in ";
@@ -312,6 +411,16 @@ void PlayGame::playGame() {
 
 }
 
+
+
+/******************************************************************************************
+** Function: finalResults
+** Description: This function displays the players remaining on each team, the players that
+**		have been incapacitated, the winning team, and the 1st-3rd place winners. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: N/A
+******************************************************************************************/
 void PlayGame::finalResults() {
 
 	cout << endl;
@@ -323,7 +432,7 @@ void PlayGame::finalResults() {
 	team2->display();
 
 	cout << endl;
-	cout << "Losers: " << endl;
+	cout << "Incapacitated Losers: " << endl;
 	loserstack->display();
 
 	cout << endl;

@@ -1,14 +1,18 @@
 /******************************************************************************************
-** Program Filename: Lab 6
+** Program Filename: Assignment 4
 ** Author: Megan Aldridge
-** Date: February 14, 2016
-** Description: This program allows a user to store integers in a stack-like and queue-like
-**		linked list. The user can also remove the last integer added to the stack or the
-**		first integer added to the queue and display the resulting stack or queue.
-** Input: User will select from a menu to determine if an integer is added or removed from
-**		the stack or queue, as well as input their selected integer.
-** Output: There is a menu that is output to the user as well as basic cout statements
-**		indicating the results.
+** Date: February 28, 2016
+** Description: This program allows a user to create two teams of Creatures that will
+**		battle in pairs until death!
+** Input: User will select the number of players in each team and then the user will select
+**		from a menu to determine which Creatures will fight and name each creature.
+** Output: The output displays each round of the fight including each creatures armor,
+**		die roll, strength (before and after defending), and the result of the battle.
+**		At the end of all paired battles, the output will display the players remaining
+**		in the winning team and the losers (incapacitated players) as well as the 1st,
+**		2nd, and 3rd place victors.
+**		Menu functions also display choices to allow the user to determine if they want
+**		to continue the battle, start a new one, or quit.
 ******************************************************************************************/
 
 #include "PlayerQueue.hpp"
@@ -29,9 +33,11 @@ Queue::Queue() {
 }
 
 
+
 /******************************************************************************************
 ** Function: Destructor
-** Description: This functions deletes all nodes to deallocate the dynamic memory created.
+** Description: This functions deletes all nodes and creature pointers to deallocate the 
+**		dynamic memory created.
 ** Parameters: N/A
 ** Pre-Conditions: Called when the queue is destroyed
 ** Post-Conditons: N/A
@@ -67,12 +73,13 @@ Queue::~Queue() {
 }
 
 
+
 /******************************************************************************************
 ** Function: Add
 ** Description: This function creates a new Linked Node and adds it to the Queue.
 ** Parameters: N/A
-** Pre-Conditions: A number input by the user is passed into this function from main.
-** Post-Conditons: The queue continues an additional node, compared to before.
+** Pre-Conditions: A creature pointer is passed into this function from calling function.
+** Post-Conditons: The queue contains an additional node.
 ******************************************************************************************/
 void Queue::add(Creature* c1) {
 
@@ -94,13 +101,14 @@ void Queue::add(Creature* c1) {
 }
 
 
+
 /******************************************************************************************
 ** Function: Remove
 ** Description: This function deletes the first Node added in the add function.
 ** Parameters: N/A
 ** Pre-Conditions: N/A
-** Post-Conditons: The queue contains one less node and the function returns the integer value
-**		contained in the deleted node.
+** Post-Conditons: The queue contains one less node and the function returns the Creature 
+**		pointer in the deleted node. 
 ******************************************************************************************/
 Creature* Queue::remove() {
 
@@ -135,10 +143,11 @@ Creature* Queue::remove() {
 }
 
 
+
 /******************************************************************************************
 ** Function: Display
-** Description: This function displays the integers in each node of the queue at the time it
-**		is called.
+** Description: This function displays the Creature pointers in each node of the queue
+**		without deleting them, allowing the user to "peak" at the queue. 
 ** Parameters: N/A
 ** Pre-Conditions: N/A
 ** Post-Conditons: N/A
@@ -162,6 +171,16 @@ void Queue::display() {
 
 }
 
+
+
+/******************************************************************************************
+** Function: PlayerQueue
+** Description: This function validates whether the Queue is empty and returns the 
+**		corresponding bool value. 
+** Parameters: N/A
+** Pre-Conditions: N/A
+** Post-Conditons: N/A
+******************************************************************************************/
 bool Queue ::isEmpty() {
 
 	if ((head == NULL) && (tail == NULL)) {
